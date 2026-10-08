@@ -1,0 +1,8 @@
+# Recommended: 
+# Generate a gitignore file for your project on https://www.toptal.com/developers/gitignore/
+# and paste it above your custom rules
+
+# Local dev state
+*.env
+*.env.*
+!*.env.example
