@@ -1,0 +1,4 @@
+[tools]
+opencode = "latest"
+"github:can1357/oh-my-pi" = "latest"
+claude = "latest"

@@ -1,0 +1,56 @@
+{
+  "build": {
+    "dockerfile": "image/Dockerfile",
+    "context": "image"
+  },
+  "initializeCommand": "bash .devcontainer/initialize.sh",
+  "runArgs": [
+    "--add-host=host.docker.internal:host-gateway",
+    "--env-file",
+    "${localWorkspaceFolder}/dev.env"
+  ],
+  "features": {
+    "ghcr.io/devcontainers-extra/features/mise:1": {},
+    "ghcr.io/devcontainers/features/docker-in-docker:4": {
+      "enableNonRootDocker": true,
+      "moby": false
+    }
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-kubernetes-tools.vscode-kubernetes-tools",
+        "ms-azuretools.vscode-containers",
+        "ms-vscode-remote.remote-containers",
+        "ms-vscode-remote.remote-ssh",
+        "hverlin.mise-vscode",
+        "tombi-toml.tombi"
+      ]
+    }
+  },
+  "mounts": [
+    {
+      "source": "arasent-mise-data",
+      "target": "/mnt/mise-data",
+      "type": "volume"
+    },
+    {
+      "source": "arasent-zsh-history",
+      "target": "/mnt/zsh-history",
+      "type": "volume"
+    },
+    "source=${localEnv:HOME}/.config/git,target=/home/vscode/.config/git,type=bind,readonly,consistency=cached",
+    "source=${localEnv:HOME}/.devcontainer-data/.config/opencode,target=/home/vscode/.config/opencode,type=bind,consistency=cached",
+    "source=${localEnv:HOME}/.devcontainer-data/.config/omp,target=/home/vscode/.omp/agent,type=bind,consistency=cached",
+    "source=${localEnv:HOME}/.devcontainer-data/.config/claude,target=/home/vscode/.claude,type=bind,consistency=cached"
+  ],
+  "containerEnv": {
+    "MISE_DATA_DIR": "/mnt/mise-data",
+    "ZSH_HISTFILE": "/mnt/zsh-history/.zsh_history"
+  },
+  "remoteEnv": {
+    "PATH": "${containerEnv:PATH}:/mnt/mise-data/shims"
+  },
+  "postCreateCommand": "bash .devcontainer/post-create.sh",
+  "postStartCommand": "bash .devcontainer/post-start.sh"
+}
